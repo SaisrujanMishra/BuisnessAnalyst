@@ -1,123 +1,78 @@
-import React, { useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
-import { Download, ExternalLink } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Award, Code2, Download, ExternalLink, GraduationCap, MapPin } from 'lucide-react';
+import { contact } from '../data/portfolio';
 
-// Set worker URL for pdf.js
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
-// Using a publicly accessible PDF for demonstration
-const RESUME_URL = './SaisrujanResume.pdf';
 const GOOGLE_DRIVE_URL = 'https://drive.google.com/file/d/1oyGj6ecMIAS7Hxczmc2vZ3KE65H-luZL/view?usp=sharing';
 
+const certifications = [
+  'AWS Certified Cloud Practitioner',
+  'Microsoft Certified: Azure Administrator (AZ-104)',
+  '100xDevs Full Stack Cohort',
+  'MongoDB University: Connecting to a MongoDB Database',
+];
+
 export default function Resume() {
-  const [error, setError] = useState<string | null>(null);
-  const [scale, setScale] = useState(1);
-
-  React.useEffect(() => {
-    const updateScale = () => {
-      const width = window.innerWidth;
-      if (width < 640) { // sm breakpoint
-        setScale(0.6);
-      } else if (width < 768) { // md breakpoint
-        setScale(0.8);
-      } else {
-        setScale(1);
-      }
-    };
-
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, []);
-
-  function onDocumentLoadSuccess() {
-    setError(null);
-  }
-
-  function onDocumentLoadError(error: Error) {
-    setError('Failed to load PDF. Please try again later.');
-    console.error('PDF load error:', error);
-  }
-
-  // Base A4 dimensions
-  const baseWidth = 500;
-  const a4Ratio = 297 / 210;
-  const pdfWidth = baseWidth * scale;
-  const pdfHeight = pdfWidth * a4Ratio;
-
   return (
-    <section className="py-20 bg-nightsky dark:bg-glacial">
-      <div className="container mx-auto px-4 sm:px-6">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center text-glacial dark:text-nightsky">
-          Resume
-        </h2>
-
-        <div className="flex flex-col items-center">
-          <div className="w-full max-w-lg flex justify-center gap-4 mb-8">
-            <motion.a
-              href={RESUME_URL}
-              download="resume.pdf"
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Download className="w-5 h-5" />
-              <span>Download PDF</span>
-            </motion.a>
-            <motion.a
-              href={GOOGLE_DRIVE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-200 rounded-lg hover:bg-gray-700 transition-colors border border-purple-500/50 shadow-lg shadow-purple-500/20"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ExternalLink className="w-5 h-5" />
-              <span>View on Drive</span>
-            </motion.a>
+    <section className="section-block resume-section" aria-labelledby="resume-title">
+      <div className="page-shell">
+        <div className="resume-hero">
+          <div>
+            <p className="eyebrow">Resume</p>
+            <h1 id="resume-title">One-page proof of the foundations.</h1>
+            <p>
+              Computer Science graduate with full-stack project experience, cloud certifications, and an expanding
+              focus on business and product analysis.
+            </p>
           </div>
+          <div className="resume-actions">
+            <a className="primary-button" href={contact.resume} download="Saisrujan-Mishra-Resume.pdf">
+              Download PDF <Download aria-hidden="true" />
+            </a>
+            <a className="secondary-button" href={GOOGLE_DRIVE_URL} target="_blank" rel="noreferrer">
+              Open in Drive <ExternalLink aria-hidden="true" />
+            </a>
+          </div>
+        </div>
 
-          {error ? (
-            <div className="w-full max-w-lg bg-red-500/10 border border-red-500 rounded-lg p-4 text-red-500 text-center">
-              {error}
+        <div className="resume-summary-grid">
+          <article className="resume-summary-card resume-summary-card--wide">
+            <span className="resume-card-icon"><GraduationCap aria-hidden="true" /></span>
+            <p className="eyebrow">Education</p>
+            <h2>Vellore Institute of Technology</h2>
+            <p>B.Tech in Computer Science & Engineering, specialization in Blockchain Technology</p>
+            <div className="resume-meta"><span>2021 - 2025</span><span><MapPin aria-hidden="true" /> Vellore, India</span></div>
+          </article>
+
+          <article className="resume-summary-card">
+            <span className="resume-card-icon"><Code2 aria-hidden="true" /></span>
+            <p className="eyebrow">Core stack</p>
+            <h2>Full-stack systems</h2>
+            <p>React, TypeScript, Node.js, Express, PostgreSQL, MongoDB, Supabase, Git, and Linux.</p>
+          </article>
+
+          <article className="resume-summary-card">
+            <span className="resume-card-icon"><Award aria-hidden="true" /></span>
+            <p className="eyebrow">Credentials</p>
+            <h2>Cloud & development</h2>
+            <ul>
+              {certifications.map((certification) => <li key={certification}>{certification}</li>)}
+            </ul>
+          </article>
+        </div>
+
+        <div className="resume-document">
+          <div className="resume-document-heading">
+            <div>
+              <p className="eyebrow">Original document</p>
+              <h2>Full resume</h2>
             </div>
-          ) : (
-            <div 
-              className="bg-white rounded-lg shadow-xl overflow-hidden mx-auto"
-              style={{ 
-                width: `${pdfWidth}px`, 
-                height: `${pdfHeight}px`,
-                maxWidth: '100vw',
-                transform: `scale(${scale})`,
-                transformOrigin: 'top center'
-              }}
-            >
-              <Document
-                file={RESUME_URL}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={onDocumentLoadError}
-                loading={
-                  <div className="flex justify-center items-center h-full">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-nightsky dark:border-glacial"></div>
-                  </div>
-                }
-              >
-                <Page
-                  pageNumber={1}
-                  width={pdfWidth}
-                  height={pdfHeight}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  loading={
-                    <div className="flex justify-center items-center h-full">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-nightsky dark:border-glacial"></div>
-                    </div>
-                  }
-                />
-              </Document>
-            </div>
-          )}
+            <a className="text-link" href={contact.resume} target="_blank" rel="noreferrer">
+              Open full screen <ExternalLink aria-hidden="true" />
+            </a>
+          </div>
+          <iframe src={`${contact.resume}#view=FitH`} title="Saisrujan Mishra resume PDF" />
+          <p className="resume-fallback">
+            If the preview does not load, <a href={contact.resume} download>download the PDF</a>.
+          </p>
         </div>
       </div>
     </section>

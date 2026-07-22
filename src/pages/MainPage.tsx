@@ -1,124 +1,126 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowDown, ArrowRight, Check, Copy, Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import About from '../components/About';
+import ProjectsGallery from '../components/ProjectsGallery';
 import SkillsFilter from '../components/SkillsFilter';
 import SkillsMarquee from '../components/SkillsMarquee';
+import { contact } from '../data/portfolio';
 
 export default function MainPage() {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [emailCopied, setEmailCopied] = useState(false);
 
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText(contact.email);
+    setEmailCopied(true);
+    window.setTimeout(() => setEmailCopied(false), 1800);
   };
 
   return (
-    <div className="overflow-x-hidden">
-      {/* Hero Section */}
-      <motion.section 
-        className="min-h-screen flex items-center pt-16"
-        initial="hidden"
-        animate="visible"
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Profile Photo */}
-            <motion.div
-              className="flex justify-center md:justify-start md:pl-12"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-accent-gold/30 shadow-lg">
-                <img
-                  src="./Sai_logo.jpeg"
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
+    <div>
+      <section className="hero-section" aria-labelledby="hero-title">
+        <div className="hero-orb hero-orb--one" aria-hidden="true" />
+        <div className="hero-orb hero-orb--two" aria-hidden="true" />
+        <div className="page-shell hero-grid">
+          <div className="hero-copy">
+            <div className="availability-pill">
+              <span aria-hidden="true" /> Open to analyst, product, and technical roles
+            </div>
+            <p className="hero-kicker">Business analysis · Product thinking · Full-stack execution</p>
+            <h1 id="hero-title">I turn messy problems into clear decisions and useful products.</h1>
+            <p className="hero-description">
+              I&apos;m Saisrujan Mishra, a VIT Computer Science graduate combining structured analysis with the
+              ability to build and ship. I work across requirements, data, user journeys, and modern web systems.
+            </p>
+
+            <div className="hero-actions">
+              <Link to="/projects" className="primary-button">
+                Explore my work <ArrowRight aria-hidden="true" />
+              </Link>
+              <a href={contact.resume} className="secondary-button" download>
+                Download resume <ArrowDown aria-hidden="true" />
+              </a>
+            </div>
+
+            <div className="hero-contact-row">
+              <span><MapPin aria-hidden="true" /> Mumbai, India · Open to remote</span>
+              <div className="hero-socials">
+                <a href={contact.github} target="_blank" rel="noreferrer" aria-label="GitHub profile"><Github /></a>
+                <a href={contact.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn profile"><Linkedin /></a>
+                <a href={`mailto:${contact.email}`} aria-label="Send email"><Mail /></a>
+                <button type="button" onClick={copyEmail} aria-label="Copy email address">
+                  {emailCopied ? <Check /> : <Copy />}
+                  <span>{emailCopied ? 'Copied' : 'Copy email'}</span>
+                </button>
               </div>
-            </motion.div>
+            </div>
+          </div>
 
-            {/* Text Content */}
-            <div className="text-right">
-              <motion.h1 
-                className="text-3xl md:text-4xl font-bold mb-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                Saisrujan Mishra
-              </motion.h1>
-              <motion.h2 
-                className="text-4xl md:text-4xl font-bold mb-4 whitespace-nowrap"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                FULL STACK DEVELOPER
-              </motion.h2>
-              <motion.p 
-                className="text-lg text-secondary/80 mb-8"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                Crafting digital experiences through code. Specialized in web development,
-                embedded systems, and cloud computing.
-              </motion.p>
-
-              <motion.div 
-                className="flex justify-end space-x-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer"
-                   className="p-2 rounded-full bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                  <Github className="w-6 h-6" />
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                   className="p-2 rounded-full bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                  <Linkedin className="w-6 h-6" />
-                </a>
-                <a href="mailto:contact@example.com"
-                   className="p-2 rounded-full bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                  <Mail className="w-6 h-6" />
-                </a>
-              </motion.div>
+          <div className="hero-visual" aria-label="Profile and working method">
+            <div className="portrait-card">
+              <img src="/Sai2.jpg" alt="Saisrujan Mishra" />
+              <div className="portrait-label">
+                <span>Currently exploring</span>
+                <strong>Product & business analytics</strong>
+              </div>
+            </div>
+            <div className="decision-card decision-card--top">
+              <span>01 / Understand</span>
+              <strong>Requirements · journeys · metrics</strong>
+            </div>
+            <div className="decision-card decision-card--bottom">
+              <span>02 / Deliver</span>
+              <strong>Insights · workflows · products</strong>
             </div>
           </div>
         </div>
-      </motion.section>
 
-      {/* About Section */}
+        <div className="page-shell proof-strip" aria-label="Profile highlights">
+          <div><strong>2025</strong><span>VIT CSE graduate</span></div>
+          <div><strong>3</strong><span>Shipped web projects</span></div>
+          <div><strong>2</strong><span>Cloud certifications</span></div>
+          <div><strong>1</strong><span>Hybrid analyst-builder profile</span></div>
+        </div>
+      </section>
+
       <About />
+      <ProjectsGallery preview />
 
-      {/* Skills Section */}
-      <motion.section
-        className="py-20"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-6">
-          <h2 className="section-heading">Skills & Interests</h2>
-          <SkillsFilter 
-            selectedFilters={selectedFilters}
-            onFilterChange={setSelectedFilters}
-          />
+      <section className="section-block section-block--dark" aria-labelledby="skills-title">
+        <div className="page-shell">
+          <div className="section-intro section-intro--split">
+            <div>
+              <p className="eyebrow">Working toolkit</p>
+              <h2 id="skills-title">From question to shipped answer.</h2>
+            </div>
+            <p>
+              A cross-functional toolkit for investigating the problem, documenting the decision, and building
+              the solution. Filter it by the part of the workflow you care about.
+            </p>
+          </div>
+          <SkillsFilter selectedFilters={selectedFilters} onFilterChange={setSelectedFilters} />
           <SkillsMarquee selectedCategories={selectedFilters} />
         </div>
-      </motion.section>
+      </section>
+
+      <section className="section-block" aria-labelledby="next-title">
+        <div className="page-shell next-panel">
+          <div>
+            <p className="eyebrow">Next opportunity</p>
+            <h2 id="next-title">Looking for a team that values curious, structured problem-solving.</h2>
+          </div>
+          <div>
+            <p>
+              I&apos;m targeting business analyst, product analyst, technical analyst, and product-minded developer
+              opportunities where I can learn quickly and contribute across functions.
+            </p>
+            <a className="primary-button" href={`mailto:${contact.email}`}>
+              Start a conversation <ArrowRight aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
