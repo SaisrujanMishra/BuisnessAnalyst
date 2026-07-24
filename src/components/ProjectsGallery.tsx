@@ -8,7 +8,7 @@ interface ProjectsGalleryProps {
   preview?: boolean;
 }
 
-const categories = ['All', 'Product', 'Full stack', 'Real-time', 'Portfolio'] as const;
+const categories = ['All', 'Product', 'Data / ML', 'Full stack', 'Real-time', 'Portfolio'] as const;
 
 export default function ProjectsGallery({ preview = false }: ProjectsGalleryProps) {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>('All');
@@ -70,7 +70,9 @@ export default function ProjectsGallery({ preview = false }: ProjectsGalleryProp
         )}
 
         <div className="project-list" aria-live="polite">
-          {visibleProjects.map((project) => <ProjectCard key={project.id} project={project} />)}
+          {visibleProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
         </div>
 
         {visibleProjects.length === 0 && (

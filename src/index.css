@@ -109,6 +109,25 @@ img {
   border: 0;
 }
 
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.8rem;
+  font-weight: 800;
+  transform: translateY(-160%);
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .site-shell {
   min-height: 100vh;
   overflow: hidden;
@@ -147,6 +166,18 @@ img {
   z-index: 50;
   border-bottom: 1px solid transparent;
   transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.scroll-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 80ms linear;
 }
 
 .site-header--scrolled {
@@ -356,6 +387,24 @@ img {
   line-height: 1.75;
 }
 
+.role-fit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.role-fit-row span {
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.03em;
+}
+
 .hero-actions,
 .resume-actions {
   display: flex;
@@ -542,6 +591,56 @@ img {
   font-size: 0.86rem;
   line-height: 1.45;
 }
+
+.signal-card {
+  position: absolute;
+  top: 47%;
+  right: -8px;
+  z-index: 4;
+  width: 180px;
+  padding: 15px 16px;
+  border: 1px solid rgba(20, 25, 32, 0.22);
+  border-radius: 15px;
+  background: rgba(255, 253, 247, 0.94);
+  color: #131820;
+  box-shadow: 0 16px 38px rgba(14, 18, 24, 0.16);
+  backdrop-filter: blur(12px);
+}
+
+.signal-card > span {
+  display: block;
+  color: #68717d;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.signal-card strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.signal-card div {
+  display: flex;
+  height: 28px;
+  align-items: end;
+  gap: 5px;
+  margin-top: 11px;
+}
+
+.signal-card i {
+  width: 100%;
+  border-radius: 3px 3px 1px 1px;
+  background: #b6ed4f;
+}
+
+.signal-card i:nth-child(1) { height: 35%; }
+.signal-card i:nth-child(2) { height: 58%; }
+.signal-card i:nth-child(3) { height: 48%; }
+.signal-card i:nth-child(4) { height: 92%; }
 
 .decision-card--top {
   top: 0;
@@ -824,6 +923,13 @@ img {
   border-radius: 24px;
   background: var(--surface);
   box-shadow: 0 16px 50px rgba(22, 28, 36, 0.06);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.project-card:hover {
+  border-color: var(--line-strong);
+  box-shadow: 0 26px 70px rgba(22, 28, 36, 0.11);
+  transform: translateY(-4px);
 }
 
 .project-card:nth-child(even) .project-visual {
@@ -886,6 +992,24 @@ img {
   font-weight: 800;
 }
 
+.project-status {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(12, 17, 23, 0.72);
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
 .project-visual-action svg {
   width: 17px;
 }
@@ -917,6 +1041,28 @@ img {
   margin: 0;
   color: var(--muted);
   line-height: 1.75;
+}
+
+.project-role {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 12px;
+  padding: 15px 0;
+  margin: 20px 0 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.project-role span {
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .evidence-list {
@@ -1388,6 +1534,11 @@ img {
     max-width: 205px;
   }
 
+  .signal-card {
+    right: -4px;
+    width: 165px;
+  }
+
   .project-card {
     grid-template-columns: 0.9fr 1.1fr;
   }
@@ -1599,6 +1750,13 @@ img {
 
   .decision-card--top {
     right: -3px;
+  }
+
+  .signal-card {
+    top: 50%;
+    right: -2px;
+    width: 154px;
+    padding: 12px 13px;
   }
 
   .proof-strip {

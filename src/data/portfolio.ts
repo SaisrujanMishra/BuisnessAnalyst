@@ -1,4 +1,4 @@
-export type ProjectCategory = 'Product' | 'Full stack' | 'Real-time' | 'Portfolio';
+export type ProjectCategory = 'Product' | 'Full stack' | 'Real-time' | 'Data / ML' | 'Portfolio';
 
 export interface PortfolioProject {
   id: string;
@@ -9,11 +9,13 @@ export interface PortfolioProject {
   imageAlt: string;
   categories: ProjectCategory[];
   stack: string[];
-  liveUrl: string;
-  githubUrl: string;
+  liveUrl?: string;
+  githubUrl?: string;
   problem: string;
   approach: string[];
   evidence: string[];
+  role: string;
+  status: 'Live' | 'Case study' | 'Prototype';
   featured: boolean;
   accent: 'lime' | 'blue' | 'coral';
 }
@@ -46,6 +48,8 @@ export const projects: PortfolioProject[] = [
       'Used an AI-assisted workflow to return contextual task suggestions through serverless functions.',
     ],
     evidence: ['Working deployment', 'Authenticated workflow', 'AI-assisted task breakdown'],
+    role: 'Product design + full-stack development',
+    status: 'Live',
     featured: true,
     accent: 'lime',
   },
@@ -69,6 +73,8 @@ export const projects: PortfolioProject[] = [
       'Kept shared interface state predictable with Zustand and responsive layouts.',
     ],
     evidence: ['Working deployment', 'JWT authentication', 'WebSocket messaging'],
+    role: 'Full-stack development',
+    status: 'Live',
     featured: true,
     accent: 'blue',
   },
@@ -83,7 +89,7 @@ export const projects: PortfolioProject[] = [
     categories: ['Portfolio', 'Product'],
     stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'GitHub Actions'],
     liveUrl: 'https://saisrujan.netlify.app',
-    githubUrl: 'https://github.com/saisrujanmishra',
+    githubUrl: 'https://github.com/SaisrujanMishra/BuisnessAnalyst',
     problem:
       'A general project gallery does not quickly communicate role fit, decision-making ability, or the evidence behind each build.',
     approach: [
@@ -92,8 +98,33 @@ export const projects: PortfolioProject[] = [
       'Added automated checks for placeholders, missing assets, lint errors, and production build failures.',
     ],
     evidence: ['Responsive case studies', 'Accessible interaction states', 'Automated quality checks'],
+    role: 'Strategy, UX + frontend development',
+    status: 'Case study',
     featured: true,
     accent: 'coral',
+  },
+  {
+    id: 'cash-crop-recommendation',
+    title: 'Cash Crop Recommendation',
+    kicker: 'Data-informed decision support',
+    summary:
+      'A recommendation interface that turns soil nutrients and environmental conditions into a clearer crop-selection decision.',
+    image: '/CropRecomendation.png',
+    imageAlt: 'Cash Crop Recommendation System with soil and climate input fields',
+    categories: ['Data / ML', 'Product'],
+    stack: ['Machine learning', 'Decision support', 'Data inputs', 'Responsive UI'],
+    problem:
+      'Crop selection depends on several interacting soil and climate signals, making manual comparison difficult and inconsistent.',
+    approach: [
+      'Structured seven decision inputs covering nitrogen, phosphorus, potassium, temperature, humidity, pH, and rainfall.',
+      'Designed a single-task interface that keeps the recommendation flow easy to understand.',
+      'Presented the model as a practical decision-support tool rather than exposing implementation complexity.',
+    ],
+    evidence: ['7-variable input model', 'Task-focused interface', 'Decision-support prototype'],
+    role: 'Data workflow + interface design',
+    status: 'Prototype',
+    featured: false,
+    accent: 'lime',
   },
 ];
 

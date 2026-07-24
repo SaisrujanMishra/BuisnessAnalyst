@@ -4,33 +4,47 @@ import type { PortfolioProject } from '../data/portfolio';
 
 interface ProjectCardProps {
   project: PortfolioProject;
+  index: number;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({ project, index }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
   const detailsId = `${project.id}-details`;
+  const visual = (
+    <>
+      <img src={project.image} alt={project.imageAlt} loading="lazy" />
+      <span className="project-status">{project.status}</span>
+      {project.liveUrl && (
+        <span className="project-visual-action">Open live project <ArrowUpRight aria-hidden="true" /></span>
+      )}
+    </>
+  );
 
   return (
     <article className={`project-card project-card--${project.accent}`}>
-      <a
-        className="project-visual"
-        href={project.liveUrl}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`Open the ${project.title} live project`}
-      >
-        <img src={project.image} alt={project.imageAlt} loading="lazy" />
-        <span className="project-visual-action">Open live project <ArrowUpRight aria-hidden="true" /></span>
-      </a>
+      {project.liveUrl ? (
+        <a
+          className="project-visual"
+          href={project.liveUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Open the ${project.title} live project`}
+        >
+          {visual}
+        </a>
+      ) : (
+        <div className="project-visual">{visual}</div>
+      )}
 
       <div className="project-content">
         <div className="project-topline">
           <span className="project-kicker">{project.kicker}</span>
-          <span className="project-number">/{project.id.slice(0, 2).toUpperCase()}</span>
+          <span className="project-number">/0{index + 1}</span>
         </div>
 
         <h3>{project.title}</h3>
         <p className="project-summary">{project.summary}</p>
+        <p className="project-role"><span>My role</span>{project.role}</p>
 
         <div className="evidence-list" aria-label="Project evidence">
           {project.evidence.map((item) => (
@@ -53,12 +67,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {expanded ? 'Hide case study' : 'Read case study'}
             <ChevronDown className={expanded ? 'rotate-180' : ''} aria-hidden="true" />
           </button>
-          <a href={project.githubUrl} target="_blank" rel="noreferrer" className="icon-text-link">
-            <Github aria-hidden="true" /> GitHub
-          </a>
-          <a href={project.liveUrl} target="_blank" rel="noreferrer" className="icon-text-link">
-            Live <ArrowUpRight aria-hidden="true" />
-          </a>
+          {project.githubUrl && (
+            <a href={project.githubUrl} target="_blank" rel="noreferrer" className="icon-text-link">
+              <Github aria-hidden="true" /> GitHub
+            </a>
+          )}
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noreferrer" className="icon-text-link">
+              Live <ArrowUpRight aria-hidden="true" />
+            </a>
+          )}
         </div>
 
         <div id={detailsId} className={`project-details ${expanded ? 'project-details--open' : ''}`}>

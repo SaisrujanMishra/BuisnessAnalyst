@@ -12,6 +12,7 @@ const navItems = [
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
 
@@ -20,7 +21,11 @@ export default function Navigation() {
   }, [pathname]);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 12);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 12);
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0);
+    };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -28,6 +33,7 @@ export default function Navigation() {
 
   return (
     <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
+      <span className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} aria-hidden="true" />
       <nav className="page-shell nav-bar" aria-label="Primary navigation">
         <NavLink to="/" className="wordmark" aria-label="Saisrujan Mishra home">
           <span className="wordmark-mark" aria-hidden="true">SM</span>

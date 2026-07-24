@@ -20,9 +20,10 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <div className="site-shell">
         <Navigation />
-        <main>
+        <main id="main-content">
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/projects" element={<ProjectsPage />} />

@@ -27,12 +27,18 @@ export default function MainPage() {
             <div className="availability-pill">
               <span aria-hidden="true" /> Open to analyst, product, and technical roles
             </div>
-            <p className="hero-kicker">Business analysis · Product thinking · Full-stack execution</p>
-            <h1 id="hero-title">I turn messy problems into clear decisions and useful products.</h1>
+            <p className="hero-kicker">Business analysis · Product thinking · Technical delivery</p>
+            <h1 id="hero-title">Business analyst thinking, with the ability to ship.</h1>
             <p className="hero-description">
-              I&apos;m Saisrujan Mishra, a VIT Computer Science graduate combining structured analysis with the
-              ability to build and ship. I work across requirements, data, user journeys, and modern web systems.
+              I&apos;m Saisrujan Mishra, a VIT Computer Science graduate who turns ambiguous requirements into
+              structured decisions, clear workflows, and working digital products.
             </p>
+
+            <div className="role-fit-row" aria-label="Target roles">
+              <span>Business Analyst</span>
+              <span>Product Analyst</span>
+              <span>Technical Analyst</span>
+            </div>
 
             <div className="hero-actions">
               <Link to="/projects" className="primary-button">
@@ -73,12 +79,22 @@ export default function MainPage() {
               <span>02 / Deliver</span>
               <strong>Insights · workflows · products</strong>
             </div>
+            <div className="signal-card">
+              <span>Working principle</span>
+              <strong>Evidence before assumptions.</strong>
+              <div>
+                <i />
+                <i />
+                <i />
+                <i />
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="page-shell proof-strip" aria-label="Profile highlights">
           <div><strong>2025</strong><span>VIT CSE graduate</span></div>
-          <div><strong>3</strong><span>Shipped web projects</span></div>
+          <div><strong>4</strong><span>Product & data projects</span></div>
           <div><strong>2</strong><span>Cloud certifications</span></div>
           <div><strong>1</strong><span>Hybrid analyst-builder profile</span></div>
         </div>
