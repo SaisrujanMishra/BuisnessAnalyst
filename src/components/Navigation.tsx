@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
@@ -12,7 +12,8 @@ const navItems = [
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const progressRef = useRef<HTMLSpanElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
 
@@ -21,19 +22,43 @@ export default function Navigation() {
   }, [pathname]);
 
   useEffect(() => {
+    let frame = 0;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 12);
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0);
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+        setScrolled((current) => {
+          const next = window.scrollY > 12;
+          return current === next ? current : next;
+        });
+        progressRef.current?.style.setProperty('transform', `scaleX(${progress})`);
+        frame = 0;
+      });
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [menuOpen]);
 
   return (
     <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
-      <span className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} aria-hidden="true" />
+      <span ref={progressRef} className="scroll-progress" aria-hidden="true" />
       <nav className="page-shell nav-bar" aria-label="Primary navigation">
         <NavLink to="/" className="wordmark" aria-label="Saisrujan Mishra home">
           <span className="wordmark-mark" aria-hidden="true">SM</span>
@@ -51,7 +76,7 @@ export default function Navigation() {
               {label}
             </NavLink>
           ))}
-          <a className="nav-cta" href="mailto:saisrujanmishra@gmail.com">Let&apos;s talk</a>
+          <a className="nav-cta" href="mailto:saisrujanmishra@gmail.com">Email me</a>
         </div>
 
         <div className="nav-actions">
@@ -64,6 +89,7 @@ export default function Navigation() {
             {theme === 'dark' ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
           </button>
           <button
+            ref={menuButtonRef}
             className="icon-button menu-button"
             type="button"
             onClick={() => setMenuOpen((open) => !open)}

@@ -17,10 +17,10 @@ export default function Resume() {
         <div className="resume-hero">
           <div>
             <p className="eyebrow">Resume</p>
-            <h1 id="resume-title">One-page proof of the foundations.</h1>
+            <h1 id="resume-title">Resume and qualifications</h1>
             <p>
-              Computer Science graduate with full-stack project experience, cloud certifications, and an expanding
-              focus on business and product analysis.
+              Computer Science graduate with full-stack project experience, cloud credentials, and a focus on
+              business and product analysis.
             </p>
           </div>
           <div className="resume-actions">
@@ -39,7 +39,7 @@ export default function Resume() {
             <p className="eyebrow">Education</p>
             <h2>Vellore Institute of Technology</h2>
             <p>B.Tech in Computer Science & Engineering, specialization in Blockchain Technology</p>
-            <div className="resume-meta"><span>2021 - 2025</span><span><MapPin aria-hidden="true" /> Vellore, India</span></div>
+            <div className="resume-meta"><span>2021–2025</span><span><MapPin aria-hidden="true" /> Vellore, India</span></div>
           </article>
 
           <article className="resume-summary-card">
@@ -52,7 +52,7 @@ export default function Resume() {
           <article className="resume-summary-card">
             <span className="resume-card-icon"><Award aria-hidden="true" /></span>
             <p className="eyebrow">Credentials</p>
-            <h2>Cloud & development</h2>
+            <h2>Cloud and development</h2>
             <ul>
               {certifications.map((certification) => <li key={certification}>{certification}</li>)}
             </ul>

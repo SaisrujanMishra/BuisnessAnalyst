@@ -7,8 +7,8 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="page-shell footer-grid">
         <div>
-          <p className="eyebrow">Let&apos;s make the problem clearer.</p>
-          <h2 className="footer-title">Have a role, project, or messy workflow?</h2>
+          <p className="eyebrow">Contact</p>
+          <h2 className="footer-title">Have an analyst role or project in mind?</h2>
           <a className="text-link footer-email" href={`mailto:${contact.email}`}>
             {contact.email}
             <ArrowUpRight aria-hidden="true" />

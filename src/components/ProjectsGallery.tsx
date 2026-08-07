@@ -8,19 +8,22 @@ interface ProjectsGalleryProps {
   preview?: boolean;
 }
 
-const categories = ['All', 'Product', 'Data / ML', 'Full stack', 'Real-time', 'Portfolio'] as const;
+const categories = ['All', 'Product', 'Data / ML', 'Backend', 'Full stack', 'Real-time', 'Portfolio'] as const;
 
 export default function ProjectsGallery({ preview = false }: ProjectsGalleryProps) {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>('All');
   const [query, setQuery] = useState('');
+  const GalleryHeading = preview ? 'h2' : 'h1';
 
   const visibleProjects = useMemo(() => {
-    const source = preview ? projects.filter((project) => project.featured).slice(0, 2) : projects;
+    const source = preview ? projects.filter((project) => project.featured).slice(0, 3) : projects;
     const normalizedQuery = query.trim().toLowerCase();
 
     return source.filter((project) => {
       const matchesCategory = activeCategory === 'All' || project.categories.includes(activeCategory);
-      const searchable = [project.title, project.kicker, project.summary, ...project.stack].join(' ').toLowerCase();
+      const searchable = [project.title, project.kicker, project.summary, project.status, ...project.stack]
+        .join(' ')
+        .toLowerCase();
       return matchesCategory && (!normalizedQuery || searchable.includes(normalizedQuery));
     });
   }, [activeCategory, preview, query]);
@@ -30,46 +33,50 @@ export default function ProjectsGallery({ preview = false }: ProjectsGalleryProp
       <div className="page-shell">
         <div className="section-intro section-intro--split">
           <div>
-            <p className="eyebrow">{preview ? 'Selected work' : 'Project library'}</p>
-            <h2 id={preview ? 'selected-work-title' : 'project-gallery-title'}>
-              {preview ? 'Built around a real user need.' : 'Evidence before decoration.'}
-            </h2>
+            <p className="eyebrow">{preview ? 'Featured work' : 'Project catalog'}</p>
+            <GalleryHeading id={preview ? 'selected-work-title' : 'project-gallery-title'}>
+              {preview ? 'Selected projects' : 'Projects and system concepts'}
+            </GalleryHeading>
           </div>
           <p>
-            Each case study separates the problem, the implementation, and the evidence so a reviewer can
-            understand the work without guessing.
+            Each entry shows the problem, my role, the approach, the tools used, and its current delivery status.
           </p>
         </div>
 
         {!preview && (
-          <div className="project-toolbar">
-            <div className="filter-row" aria-label="Filter projects by category">
-              {categories.map((category) => (
-                <button
-                  type="button"
-                  key={category}
-                  className={activeCategory === category ? 'filter-chip filter-chip--active' : 'filter-chip'}
-                  onClick={() => setActiveCategory(category)}
-                  aria-pressed={activeCategory === category}
-                >
-                  {category}
-                </button>
-              ))}
+          <>
+            <div className="project-toolbar">
+              <div className="filter-row" role="group" aria-label="Filter projects by category">
+                {categories.map((category) => (
+                  <button
+                    type="button"
+                    key={category}
+                    className={activeCategory === category ? 'filter-chip filter-chip--active' : 'filter-chip'}
+                    onClick={() => setActiveCategory(category)}
+                    aria-pressed={activeCategory === category}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+              <label className="project-search">
+                <Search aria-hidden="true" />
+                <span className="sr-only">Search projects</span>
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search projects or tools"
+                  type="search"
+                />
+              </label>
             </div>
-            <label className="project-search">
-              <Search aria-hidden="true" />
-              <span className="sr-only">Search projects</span>
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search by skill or project"
-                type="search"
-              />
-            </label>
-          </div>
+            <p className="project-result-count" aria-live="polite">
+              {visibleProjects.length} {visibleProjects.length === 1 ? 'project' : 'projects'} shown
+            </p>
+          </>
         )}
 
-        <div className="project-list" aria-live="polite">
+        <div className={preview ? 'project-list project-list--preview' : 'project-list'}>
           {visibleProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
@@ -77,8 +84,12 @@ export default function ProjectsGallery({ preview = false }: ProjectsGalleryProp
 
         {visibleProjects.length === 0 && (
           <div className="empty-state">
-            <p>No project matches that filter yet.</p>
-            <button type="button" className="text-button" onClick={() => { setActiveCategory('All'); setQuery(''); }}>
+            <p>No project matches that filter.</p>
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => { setActiveCategory('All'); setQuery(''); }}
+            >
               Clear filters
             </button>
           </div>
@@ -86,7 +97,7 @@ export default function ProjectsGallery({ preview = false }: ProjectsGalleryProp
 
         {preview && (
           <Link className="section-link" to="/projects">
-            View all case studies <ArrowRight aria-hidden="true" />
+            View all eight projects <ArrowRight aria-hidden="true" />
           </Link>
         )}
       </div>

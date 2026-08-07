@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://saisrujan.netlify.app/sitemap.xml
+Sitemap: https://buisness-analyst-mu.vercel.app/sitemap.xml

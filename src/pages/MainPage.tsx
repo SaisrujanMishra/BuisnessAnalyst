@@ -29,13 +29,13 @@ export default function MainPage() {
         <div className="page-shell hero-grid">
           <div className="hero-copy">
             <div className="availability-pill">
-              <span aria-hidden="true" /> Open to analyst, product, and technical roles
+              <span aria-hidden="true" /> Open to business analyst and product roles
             </div>
-            <p className="hero-kicker">Business analysis · Product thinking · Technical delivery</p>
-            <h1 id="hero-title">Business analyst thinking, with the ability to ship.</h1>
+            <p className="hero-kicker">Requirements · Data · Process · Delivery</p>
+            <h1 id="hero-title">I turn requirements into clear workflows and working products.</h1>
             <p className="hero-description">
-              I&apos;m Saisrujan Mishra, a VIT Computer Science graduate who turns ambiguous requirements into
-              structured decisions, clear workflows, and working digital products.
+              I&apos;m Saisrujan Mishra, a VIT Computer Science graduate with full-stack and machine-learning
+              project experience. My work covers requirements, user flows, implementation, and deployment.
             </p>
 
             <div className="role-fit-row" aria-label="Target roles">
@@ -46,7 +46,7 @@ export default function MainPage() {
 
             <div className="hero-actions">
               <Link to="/projects" className="primary-button">
-                Explore my work <ArrowRight aria-hidden="true" />
+                View projects <ArrowRight aria-hidden="true" />
               </Link>
               <a href={contact.resume} className="secondary-button" download>
                 Download resume <ArrowDown aria-hidden="true" />
@@ -67,25 +67,32 @@ export default function MainPage() {
             </div>
           </div>
 
-          <div className="hero-visual" aria-label="Profile and working method">
+          <div className="hero-visual">
             <div className="portrait-card">
-              <img src="/Sai2.jpg" alt="Saisrujan Mishra" />
+              <img
+                src="/Sai2.webp"
+                alt="Saisrujan Mishra"
+                width="900"
+                height="1200"
+                fetchPriority="high"
+                decoding="async"
+              />
               <div className="portrait-label">
-                <span>Currently exploring</span>
-                <strong>Product & business analytics</strong>
+                <span>Current focus</span>
+                <strong>Business and product analysis</strong>
               </div>
             </div>
-            <div className="decision-card decision-card--top">
-              <span>01 / Understand</span>
-              <strong>Requirements · journeys · metrics</strong>
+            <div className="decision-card decision-card--top" aria-hidden="true">
+              <span>01 / Define</span>
+              <strong>Users · scope · acceptance criteria</strong>
             </div>
-            <div className="decision-card decision-card--bottom">
+            <div className="decision-card decision-card--bottom" aria-hidden="true">
               <span>02 / Deliver</span>
-              <strong>Insights · workflows · products</strong>
+              <strong>Models · APIs · interfaces</strong>
             </div>
-            <div className="signal-card">
+            <div className="signal-card" aria-hidden="true">
               <span>Working principle</span>
-              <strong>Evidence before assumptions.</strong>
+              <strong>Show the evidence.</strong>
               <div>
                 <i />
                 <i />
@@ -98,9 +105,9 @@ export default function MainPage() {
 
         <div className="page-shell proof-strip" aria-label="Profile highlights">
           <div><strong>2025</strong><span>VIT CSE graduate</span></div>
-          <div><strong>4</strong><span>Product & data projects</span></div>
-          <div><strong>2</strong><span>Cloud certifications</span></div>
-          <div><strong>1</strong><span>Hybrid analyst-builder profile</span></div>
+          <div><strong>8</strong><span>Project records</span></div>
+          <div><strong>4</strong><span>Documented builds</span></div>
+          <div><strong>2</strong><span>Cloud credentials</span></div>
         </div>
       </section>
 
@@ -112,12 +119,9 @@ export default function MainPage() {
           <div className="section-intro section-intro--split">
             <div>
               <p className="eyebrow">Working toolkit</p>
-              <h2 id="skills-title">From question to shipped answer.</h2>
+              <h2 id="skills-title">Skills by work area</h2>
             </div>
-            <p>
-              A cross-functional toolkit for investigating the problem, documenting the decision, and building
-              the solution. Filter it by the part of the workflow you care about.
-            </p>
+            <p>Filter the tools I use for analysis, product work, development, and delivery.</p>
           </div>
           <SkillsFilter selectedFilters={selectedFilters} onFilterChange={setSelectedFilters} />
           <SkillsMarquee selectedCategories={selectedFilters} />
@@ -127,16 +131,16 @@ export default function MainPage() {
       <section className="section-block" aria-labelledby="next-title">
         <div className="page-shell next-panel">
           <div>
-            <p className="eyebrow">Next opportunity</p>
-            <h2 id="next-title">Looking for a team that values curious, structured problem-solving.</h2>
+            <p className="eyebrow">Availability</p>
+            <h2 id="next-title">Open to analyst roles and project work.</h2>
           </div>
           <div>
             <p>
-              I&apos;m targeting business analyst, product analyst, technical analyst, and product-minded developer
-              opportunities where I can learn quickly and contribute across functions.
+              I&apos;m seeking Business Analyst, Product Analyst, and Technical Analyst opportunities where I can
+              contribute across requirements, data, product, and delivery.
             </p>
             <a className="primary-button" href={`mailto:${contact.email}`}>
-              Start a conversation <ArrowRight aria-hidden="true" />
+              Email me <ArrowRight aria-hidden="true" />
             </a>
           </div>
         </div>

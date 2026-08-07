@@ -3,18 +3,18 @@ import { ArrowDownRight } from 'lucide-react';
 const workflow = [
   {
     number: '01',
-    title: 'Frame the problem',
-    text: 'Clarify the user, business goal, constraints, and the decision the work needs to support.',
+    title: 'Define the decision',
+    text: 'Clarify the user, objective, constraints, and the result the work needs to support.',
   },
   {
     number: '02',
-    title: 'Build the evidence',
-    text: 'Map the journey, structure the data, and turn assumptions into requirements or testable measures.',
+    title: 'Structure the requirements',
+    text: 'Map the workflow, document the needs, and turn assumptions into testable requirements.',
   },
   {
     number: '03',
-    title: 'Ship the feedback loop',
-    text: 'Deliver a dashboard, workflow, or product that makes the next decision faster and more reliable.',
+    title: 'Build and evaluate',
+    text: 'Deliver the product or analysis, test the result, and record what should improve next.',
   },
 ];
 
@@ -24,10 +24,10 @@ export default function About() {
       <div className="page-shell approach-grid">
         <div className="approach-copy">
           <p className="eyebrow">How I work</p>
-          <h2 id="approach-title">Analyst brain.<br />Builder hands.</h2>
+          <h2 id="approach-title">From requirement to delivery</h2>
           <p className="lead-copy">
-            I&apos;m a Computer Science graduate from VIT with hands-on full-stack experience and a growing focus on
-            business and product analysis. I enjoy the work between a vague request and a useful, measurable result.
+            I&apos;m a Computer Science graduate from VIT with full-stack experience, now focused on business and
+            product analysis. I clarify the context, document the workflow, and build a result that can be tested.
           </p>
           <div className="education-note">
             <ArrowDownRight aria-hidden="true" />

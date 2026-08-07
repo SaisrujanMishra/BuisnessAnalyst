@@ -25,7 +25,7 @@ function App() {
       <div className="site-shell">
         <Navigation />
         <main id="main-content">
-          <Suspense fallback={<div className="route-loading" role="status">Loading page…</div>}>
+          <Suspense fallback={<div className="route-loading" role="status">Loading page...</div>}>
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
