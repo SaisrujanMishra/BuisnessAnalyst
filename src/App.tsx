@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import MainPage from './pages/MainPage';
-import ProjectsPage from './pages/ProjectsPage';
-import ResumePage from './pages/ResumePage';
 import Footer from './components/Footer';
+
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
+const ResumePage = lazy(() => import('./pages/ResumePage'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -24,12 +25,14 @@ function App() {
       <div className="site-shell">
         <Navigation />
         <main id="main-content">
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/resume" element={<ResumePage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Suspense fallback={<div className="route-loading" role="status">Loading page…</div>}>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/resume" element={<ResumePage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>

@@ -115,6 +115,8 @@ npm run check
 
 The check command runs linting, validates portfolio content and public assets, and creates a production build.
 
+OpenAI Sites metadata is kept locally in the ignored `.openai` directory. It is not required for local development or a standard GitHub clone.
+
 ## Main project files
 
 ```text
@@ -131,4 +133,3 @@ PROJECTS_AND_INTERNSHIPS_ROADMAP.md Project specifications and opportunity plan
 - [GitHub](https://github.com/saisrujanmishra)
 - [LinkedIn](https://linkedin.com/in/saisrujan-mishra)
 - Email: saisrujanmishra@gmail.com
-

@@ -12,9 +12,13 @@ export default function MainPage() {
   const [emailCopied, setEmailCopied] = useState(false);
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText(contact.email);
-    setEmailCopied(true);
-    window.setTimeout(() => setEmailCopied(false), 1800);
+    try {
+      await navigator.clipboard.writeText(contact.email);
+      setEmailCopied(true);
+      window.setTimeout(() => setEmailCopied(false), 1800);
+    } catch {
+      window.location.href = `mailto:${contact.email}`;
+    }
   };
 
   return (
@@ -52,12 +56,12 @@ export default function MainPage() {
             <div className="hero-contact-row">
               <span><MapPin aria-hidden="true" /> Mumbai, India · Open to remote</span>
               <div className="hero-socials">
-                <a href={contact.github} target="_blank" rel="noreferrer" aria-label="GitHub profile"><Github /></a>
-                <a href={contact.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn profile"><Linkedin /></a>
-                <a href={`mailto:${contact.email}`} aria-label="Send email"><Mail /></a>
+                <a href={contact.github} target="_blank" rel="noreferrer" aria-label="GitHub profile"><Github aria-hidden="true" /></a>
+                <a href={contact.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn profile"><Linkedin aria-hidden="true" /></a>
+                <a href={`mailto:${contact.email}`} aria-label="Send email"><Mail aria-hidden="true" /></a>
                 <button type="button" onClick={copyEmail} aria-label="Copy email address">
-                  {emailCopied ? <Check /> : <Copy />}
-                  <span>{emailCopied ? 'Copied' : 'Copy email'}</span>
+                  {emailCopied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
+                  <span aria-live="polite">{emailCopied ? 'Copied' : 'Copy email'}</span>
                 </button>
               </div>
             </div>
