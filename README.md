@@ -22,9 +22,11 @@ The catalog separates published work from system concepts. A **Concept** entry d
 ## Portfolio features
 
 - Searchable and category-filtered project catalog
-- Compact, expandable project cards with problem, role, approach, and stack
+- Full-bleed portrait introduction with expressive name typography
+- Open project rows with expandable problem, role, approach, and stack details
+- Structured skill and qualification sections without decorative cards
 - Explicit Live, Repository, and Concept status labels
-- Responsive navigation, light and dark themes, and reduced-motion support
+- Responsive navigation, light default theme, saved theme preferences, and reduced-motion support
 - Resume preview and PDF download
 - SEO metadata, sitemap, social preview, and structured data
 - Automated lint, content, asset, and production-build checks
@@ -63,6 +65,7 @@ src/data/portfolio.ts               Project descriptions, links, and statuses
 src/pages/MainPage.tsx              Homepage content and primary journey
 src/components/ProjectsGallery.tsx  Project search and category filtering
 src/components/ProjectCard.tsx      Expandable project presentation
+src/components/PageMotion.tsx       Scroll-based reading reveals
 src/index.css                       Responsive design system and motion
 scripts/check-portfolio.mjs         Content and asset validation
 PROJECTS_AND_INTERNSHIPS_ROADMAP.md Future analytics project roadmap

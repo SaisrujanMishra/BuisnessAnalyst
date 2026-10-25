@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { startTransition, useDeferredValue, useState } from 'react';
 import { ArrowRight, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/portfolio';
@@ -9,37 +9,40 @@ interface ProjectsGalleryProps {
 }
 
 const categories = ['All', 'Product', 'Data / ML', 'Backend', 'Full stack', 'Real-time', 'Portfolio'] as const;
+const featuredProjects = projects.filter((project) => project.featured).slice(0, 3);
 
 export default function ProjectsGallery({ preview = false }: ProjectsGalleryProps) {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>('All');
   const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
   const GalleryHeading = preview ? 'h2' : 'h1';
+  const source = preview ? featuredProjects : projects;
+  const normalizedQuery = deferredQuery.trim().toLowerCase();
+  const visibleProjects = source.filter((project) => {
+    const matchesCategory = activeCategory === 'All' || project.categories.includes(activeCategory);
+    const searchable = [project.title, project.kicker, project.summary, project.status, ...project.stack]
+      .join(' ')
+      .toLowerCase();
+    return matchesCategory && (!normalizedQuery || searchable.includes(normalizedQuery));
+  });
 
-  const visibleProjects = useMemo(() => {
-    const source = preview ? projects.filter((project) => project.featured).slice(0, 3) : projects;
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return source.filter((project) => {
-      const matchesCategory = activeCategory === 'All' || project.categories.includes(activeCategory);
-      const searchable = [project.title, project.kicker, project.summary, project.status, ...project.stack]
-        .join(' ')
-        .toLowerCase();
-      return matchesCategory && (!normalizedQuery || searchable.includes(normalizedQuery));
-    });
-  }, [activeCategory, preview, query]);
+  const resetFilters = () => {
+    setQuery('');
+    startTransition(() => setActiveCategory('All'));
+  };
 
   return (
-    <section className="section-block" aria-labelledby={preview ? 'selected-work-title' : 'project-gallery-title'}>
+    <section className="section-block project-section" aria-labelledby={preview ? 'selected-work-title' : 'project-gallery-title'}>
       <div className="page-shell">
-        <div className="section-intro section-intro--split">
-          <div>
-            <p className="eyebrow">{preview ? 'Featured work' : 'Project catalog'}</p>
-            <GalleryHeading id={preview ? 'selected-work-title' : 'project-gallery-title'}>
-              {preview ? 'Selected projects' : 'Projects and system concepts'}
-            </GalleryHeading>
-          </div>
+        <div className="section-intro" data-reveal>
+          {preview && <p className="eyebrow">02 / Projects</p>}
+          <GalleryHeading id={preview ? 'selected-work-title' : 'project-gallery-title'}>
+            {preview ? 'Selected work' : 'Projects'}
+          </GalleryHeading>
           <p>
-            Each entry shows the problem, my role, the approach, the tools used, and its current delivery status.
+            {preview
+              ? 'Applications and research, from the first requirement to the finished build.'
+              : 'Working applications, research, and clearly labelled system concepts.'}
           </p>
         </div>
 
@@ -52,7 +55,7 @@ export default function ProjectsGallery({ preview = false }: ProjectsGalleryProp
                     type="button"
                     key={category}
                     className={activeCategory === category ? 'filter-chip filter-chip--active' : 'filter-chip'}
-                    onClick={() => setActiveCategory(category)}
+                    onClick={() => startTransition(() => setActiveCategory(category))}
                     aria-pressed={activeCategory === category}
                   >
                     {category}
@@ -70,34 +73,31 @@ export default function ProjectsGallery({ preview = false }: ProjectsGalleryProp
                 />
               </label>
             </div>
-            <p className="project-result-count" aria-live="polite">
+            <p className="project-result-count" role="status">
               {visibleProjects.length} {visibleProjects.length === 1 ? 'project' : 'projects'} shown
             </p>
           </>
         )}
 
-        <div className={preview ? 'project-list project-list--preview' : 'project-list'}>
-          {visibleProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+        <div
+          className={preview ? 'project-list project-list--preview' : 'project-list'}
+          aria-busy={query !== deferredQuery}
+        >
+          {visibleProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} index={projects.indexOf(project)} />
           ))}
         </div>
 
         {visibleProjects.length === 0 && (
           <div className="empty-state">
             <p>No project matches that filter.</p>
-            <button
-              type="button"
-              className="text-button"
-              onClick={() => { setActiveCategory('All'); setQuery(''); }}
-            >
-              Clear filters
-            </button>
+            <button type="button" className="text-button" onClick={resetFilters}>Clear filters</button>
           </div>
         )}
 
         {preview && (
           <Link className="section-link" to="/projects">
-            View all eight projects <ArrowRight aria-hidden="true" />
+            Explore all projects <ArrowRight aria-hidden="true" />
           </Link>
         )}
       </div>

@@ -16,6 +16,7 @@ export default function Navigation() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const isHome = pathname === '/';
 
   useEffect(() => {
     setMenuOpen(false);
@@ -46,6 +47,19 @@ export default function Navigation() {
 
   useEffect(() => {
     if (!menuOpen) return undefined;
+    let focusFrame = 0;
+    let focusAttempts = 0;
+    const focusFirstLink = () => {
+      const firstLink = document.querySelector<HTMLAnchorElement>('#mobile-navigation a');
+      if (!firstLink) return;
+      if (window.getComputedStyle(firstLink).visibility === 'visible') {
+        firstLink.focus();
+      } else if (focusAttempts < 15) {
+        focusAttempts += 1;
+        focusFrame = window.requestAnimationFrame(focusFirstLink);
+      }
+    };
+    focusFrame = window.requestAnimationFrame(focusFirstLink);
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setMenuOpen(false);
@@ -53,16 +67,24 @@ export default function Navigation() {
       }
     };
     window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      window.removeEventListener('keydown', closeOnEscape);
+    };
   }, [menuOpen]);
 
+  const closeMenu = () => {
+    if (!menuOpen) return;
+    setMenuOpen(false);
+    menuButtonRef.current?.focus();
+  };
+
   return (
-    <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
+    <header className={`site-header ${isHome ? 'site-header--home' : ''} ${scrolled || !isHome || menuOpen ? 'site-header--solid' : ''} ${menuOpen ? 'site-header--menu-open' : ''}`}>
       <span ref={progressRef} className="scroll-progress" aria-hidden="true" />
       <nav className="page-shell nav-bar" aria-label="Primary navigation">
-        <NavLink to="/" className="wordmark" aria-label="Saisrujan Mishra home">
-          <span className="wordmark-mark" aria-hidden="true">SM</span>
-          <span className="wordmark-name">Saisrujan Mishra</span>
+        <NavLink to="/" className="wordmark" aria-label="Saisrujan Mishra home" onClick={closeMenu}>
+          Saisrujan Mishra
         </NavLink>
 
         <div id="mobile-navigation" className={`nav-links ${menuOpen ? 'nav-links--open' : ''}`}>
@@ -71,12 +93,13 @@ export default function Navigation() {
               key={path}
               to={path}
               end={path === '/'}
+              onClick={closeMenu}
               className={({ isActive }) => `nav-link ${isActive ? 'nav-link--active' : ''}`}
             >
               {label}
             </NavLink>
           ))}
-          <a className="nav-cta" href="mailto:saisrujanmishra@gmail.com">Email me</a>
+          <a className="nav-cta" href="mailto:saisrujanmishra@gmail.com" onClick={closeMenu}>Email me</a>
         </div>
 
         <div className="nav-actions">

@@ -1,3 +1,5 @@
+import { startTransition } from 'react';
+
 const categories = [
   { id: 'analysis', label: 'Analysis' },
   { id: 'product', label: 'Product' },
@@ -12,7 +14,7 @@ interface SkillsFilterProps {
 
 export default function SkillsFilter({ selectedFilters, onFilterChange }: SkillsFilterProps) {
   const selectCategory = (categoryId: string) => {
-    onFilterChange(selectedFilters.includes(categoryId) ? [] : [categoryId]);
+    startTransition(() => onFilterChange(selectedFilters.includes(categoryId) ? [] : [categoryId]));
   };
 
   return (
@@ -20,7 +22,7 @@ export default function SkillsFilter({ selectedFilters, onFilterChange }: Skills
       <button
         type="button"
         className={selectedFilters.length === 0 ? 'skill-tab skill-tab--active' : 'skill-tab'}
-        onClick={() => onFilterChange([])}
+        onClick={() => startTransition(() => onFilterChange([]))}
         aria-pressed={selectedFilters.length === 0}
       >
         All

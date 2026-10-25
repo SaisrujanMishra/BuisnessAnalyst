@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'r
 import Navigation from './components/Navigation';
 import MainPage from './pages/MainPage';
 import Footer from './components/Footer';
+import PageMotion from './components/PageMotion';
 
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 const ResumePage = lazy(() => import('./pages/ResumePage'));
@@ -21,6 +22,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <PageMotion />
       <a className="skip-link" href="#main-content">Skip to content</a>
       <div className="site-shell">
         <Navigation />
